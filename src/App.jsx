@@ -8,6 +8,18 @@ function App() {
   const [suppressInputValues, setSupressInputValues] = useState([]);
   const [ExcelData, setExcelData] = useState([]);
   const [OddEvenSelected, setOddEvenSelected] = useState([]);
+  const [firstDigitInput, setFirstDigitInput] = useState(1);
+  const [secondDigitInput, setSecondDigitInput] = useState(1);
+  const [thirdDigitInput, setThirdDigitInput] = useState(1);
+  const [fourthDigitInput, setFourthDigitInput] = useState(1);
+  const [fifthDigitInput, setFifthDigitInput] = useState(1);
+  const [sixthDigitInput, setSixthDigitInput] = useState(1);
+  const [firstDigitValues, setFirstDigitValues] = useState([]);
+  const [secondDigitValues, setSecondDigitValues] = useState([]);
+  const [thirdDigitValues, setThirdDigitValues] = useState([]);
+  const [fourthDigitValues, setFourthDigitValues] = useState([]);
+  const [fifthDigitValues, setFifthDigitValues] = useState([]);
+  const [sixthDigitValues, setSixthDigitValues] = useState([]);
   const [Supressed, setSupressed] = useState([]);
   const oddEvenData = [
     ["000000"],
@@ -75,6 +87,18 @@ function App() {
     ["111110"],
     ["111111"],
   ];
+
+  // Shuffler Function
+  function shuffleArray(arr) {
+    // Perfect shuffle, no duplicates
+    let result = [...arr];
+    for (let i = result.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]]; // swap
+    }
+    return result;
+  }
+
   // File Upload Handler
   const handleFileUpload = (event) => {
     const file = event.target.files[0];
@@ -101,11 +125,54 @@ function App() {
     reader.readAsArrayBuffer(file);
   };
 
-  // Supress Input Value Handler (1st Execution)
+  // Supress Input Value Handler (1st Part Execution)
   const suppressInputValueHandler = (index, newValue) => {
     const updated = [...suppressInputValues];
     updated[index] = newValue;
     setSupressInputValues(updated);
+  };
+
+  // Single Digit Elimination Input Values Setup (Last Part Execution)
+  // First Digit Input Handler
+  const firstDigitValuesHandler = (index, newValue) => {
+    const updated = [...firstDigitValues];
+    updated[index] = newValue;
+    setFirstDigitValues(updated);
+  };
+
+  // Second Digit Input Handler
+  const secondDigitValuesHandler = (index, newValue) => {
+    const updated = [...secondDigitValues];
+    updated[index] = newValue;
+    setSecondDigitValues(updated);
+  };
+
+  // Third Digit Input Handler
+  const thirdDigitValuesHandler = (index, newValue) => {
+    const updated = [...thirdDigitValues];
+    updated[index] = newValue;
+    setThirdDigitValues(updated);
+  };
+
+  // Fourth Digit Input Handler
+  const fourthDigitValuesHandler = (index, newValue) => {
+    const updated = [...fourthDigitValues];
+    updated[index] = newValue;
+    setFourthDigitValues(updated);
+  };
+
+  // Fifth Digit Input Handler
+  const fifthDigitValuesHandler = (index, newValue) => {
+    const updated = [...fifthDigitValues];
+    updated[index] = newValue;
+    setFifthDigitValues(updated);
+  };
+
+  // Sixth Digit Input Handler
+  const sixthDigitValuesHandler = (index, newValue) => {
+    const updated = [...sixthDigitValues];
+    updated[index] = newValue;
+    setSixthDigitValues(updated);
   };
 
   // odd Even Checkbox Handler
@@ -149,15 +216,128 @@ function App() {
         const oddEven = row.slice(-6);
         return !OddEvenSelected.some((digit) => digit === oddEven.join(""));
       });
-
+      // Removing Binary Part
+      const oddEvenExcludedOriginal = oddEvenExcluded.map((row) =>
+        row.slice(0, 6)
+      );
       // 6 Digit Elemination One by One
 
-      console.log("oddEvenIncluded", oddEvenIncluded);
-      console.log("oddEvenExcluded", oddEvenExcluded);
+      // Digit Including Process
+      // First Digit Included
+      const firstDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
+        return firstDigitValues.some((value) => row[0] === value);
+      });
+
+      // Second Digit Included
+      const secondDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
+        return secondDigitValues.some((value) => row[1] === value);
+      });
+
+      // Third Digit Included
+      const thirdDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
+        return thirdDigitValues.some((value) => row[2] === value);
+      });
+
+      // Fourth Digit Included
+      const fourthDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
+        return fourthDigitValues.some((value) => row[3] === value);
+      });
+
+      // Fifth Digit Included
+      const fifthDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
+        return fifthDigitValues.some((value) => row[4] === value);
+      });
+
+      // Sixth Digit Included
+      const sixthDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
+        return sixthDigitValues.some((value) => row[5] === value);
+      });
+
+      const digitIncludedMainArray = shuffleArray([
+        ...firstDigitIncluded,
+        ...secondDigitIncluded,
+        ...thirdDigitIncluded,
+        ...fifthDigitIncluded,
+        ...fifthDigitIncluded,
+        ...sixthDigitIncluded,
+      ]);
+      console.log(digitIncludedMainArray);
+      // Digit Excluding Process
+      // First Digit Excluded
+      const firstDigitExcluded = oddEvenExcludedOriginal.filter((row) => {
+        return firstDigitValues.some((value) => row[0] !== value);
+      });
+
+      // Second Digit Excluded
+      const secondDigitExcluded = firstDigitExcluded.filter((row) => {
+        return secondDigitValues.some((value) => row[1] !== value);
+      });
+
+      // Third Digit Excluded
+      const thirdDigitExcluded = secondDigitExcluded.filter((row) => {
+        return thirdDigitValues.some((value) => row[2] !== value);
+      });
+
+      // Fourth Digit Excluded
+      const fourthDigitExcluded = thirdDigitExcluded.filter((row) => {
+        return fourthDigitValues.some((value) => row[3] !== value);
+      });
+
+      // Fifth Digit Excluded
+      const fifthDigitExcluded = fourthDigitExcluded.filter((row) => {
+        return fifthDigitValues.some((value) => row[4] !== value);
+      });
+
+      // Sixth Digit Excluded
+      const sixthDigitExcluded = fifthDigitExcluded.filter((row) => {
+        return sixthDigitValues.some((value) => row[4] !== value);
+      });
+
+      const digitExcludedMainArray = shuffleArray([
+        ...firstDigitExcluded,
+        ...secondDigitExcluded,
+        ...thirdDigitExcluded,
+        ...fourthDigitExcluded,
+        ...fifthDigitExcluded,
+        ...sixthDigitExcluded,
+      ]);
+      const digitExcludedExcelData = digitExcludedMainArray.map((row) => [
+        row.join(" "),
+      ]);
+
+      //  Excel Process
+      const worksheet = XLSX.utils.aoa_to_sheet(digitExcludedExcelData);
+
+      // Create a workbook and append the sheet
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+      // Save Excel file directly
+      XLSX.writeFile(workbook, "Final_Suppressed_Sheet.xlsx");
+
+      console.log("digitExcludedExcelData", digitExcludedExcelData);
+
+      // console.log("thirdDigitIncluded", thirdDigitIncluded);
+      // console.log("fourthDigitIncluded", fourthDigitIncluded);
+      // console.log("fifthDigitIncluded", fifthDigitIncluded);
+      // console.log("sixthDigitIncluded", sixthDigitIncluded);
     } else {
       return;
     }
   };
+
+  //  // Excel File Saving Function
+  //  const ExcelFilerHandler = () => {
+  //   // Convert array to worksheet
+  // const worksheet = XLSX.utils.aoa_to_sheet(data);
+
+  // // Create a workbook and append the sheet
+  // const workbook = XLSX.utils.book_new();
+  // XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+  // // Save Excel file directly
+  // XLSX.writeFile(workbook, "myData.xlsx");
+  //  }
 
   return (
     <div className="w-full p-4 bg-gray-50 flex flex-col items-center">
@@ -246,11 +426,229 @@ function App() {
           </div>
         </div>
       </div>
+      {/* 6 Single Digit Suppresser */}
+      <div className="w-full mt-4 pb-4 flex flex-col items-center justify-center md:w-[350px] bg-white shadow-lg rounded-md">
+        <h2 className="w-full text-md font-normal text-center py-2 bg-blue-400 text-white rounded-t-md">
+          Single Digit Suppresser Select One by One
+        </h2>
+        {/* First Digit */}
+        <div>
+          <p className="w-full text-sm p-2 mt-2 font-bold">
+            Enter Number of Inputs to Eliminate 1st Digit
+          </p>
+          <div className="px-2 w-full">
+            <select
+              onChange={(e) => setFirstDigitInput(Number(e.target.value))}
+              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
+            >
+              {[...Array(100)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Show Input Fields if Input Selected for First Digit */}
+          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
+            <p className="">Enter the Values One by One:</p>
+            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
+              {[...Array(firstDigitInput)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  onChange={(e) =>
+                    firstDigitValuesHandler(index, Number(e.target.value))
+                  }
+                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
 
+        {/* Second Digit */}
+        <div>
+          <p className="w-full text-sm p-2 mt-2 font-bold">
+            Enter Number of Inputs to Eliminate 2nd Digit
+          </p>
+          <div className="px-2 w-full">
+            <select
+              onChange={(e) => setSecondDigitInput(Number(e.target.value))}
+              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
+            >
+              {[...Array(100)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Show Input Fields if Input Selected for Second Digit */}
+          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
+            <p className="">Enter the Values One by One:</p>
+            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
+              {[...Array(secondDigitInput)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  onChange={(e) =>
+                    secondDigitValuesHandler(index, Number(e.target.value))
+                  }
+                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Third Digit */}
+        <div>
+          <p className="w-full text-sm p-2 mt-2 font-bold">
+            Enter Number of Inputs to Eliminate 3rd Digit
+          </p>
+          <div className="px-2 w-full">
+            <select
+              onChange={(e) => setThirdDigitInput(Number(e.target.value))}
+              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
+            >
+              {[...Array(100)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Show Input Fields if Input Selected for Third Digit */}
+          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
+            <p className="">Enter the Values One by One:</p>
+            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
+              {[...Array(thirdDigitInput)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  onChange={(e) =>
+                    thirdDigitValuesHandler(index, Number(e.target.value))
+                  }
+                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Fourth Digit */}
+        <div>
+          <p className="w-full text-sm p-2 mt-2 font-bold">
+            Enter Number of Inputs to Eliminate 4th Digit
+          </p>
+          <div className="px-2 w-full">
+            <select
+              onChange={(e) => setFourthDigitInput(Number(e.target.value))}
+              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
+            >
+              {[...Array(100)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Show Input Fields if Input Selected for Fourth Digit */}
+          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
+            <p className="">Enter the Values One by One:</p>
+            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
+              {[...Array(fourthDigitInput)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  onChange={(e) =>
+                    fourthDigitValuesHandler(index, Number(e.target.value))
+                  }
+                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Fifth Digit */}
+        <div>
+          <p className="w-full text-sm p-2 mt-2 font-bold">
+            Enter Number of Inputs to Eliminate 5th Digit
+          </p>
+          <div className="px-2 w-full">
+            <select
+              onChange={(e) => setFifthDigitInput(Number(e.target.value))}
+              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
+            >
+              {[...Array(100)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Show Input Fields if Input Selected for Fifth Digit */}
+          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
+            <p className="">Enter the Values One by One:</p>
+            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
+              {[...Array(fifthDigitInput)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  onChange={(e) =>
+                    fifthDigitValuesHandler(index, Number(e.target.value))
+                  }
+                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Sixth Digit */}
+        <div>
+          <p className="w-full text-sm p-2 mt-2 font-bold">
+            Enter Number of Inputs to Eliminate 6th Digit
+          </p>
+          <div className="px-2 w-full">
+            <select
+              onChange={(e) => setSixthDigitInput(Number(e.target.value))}
+              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
+            >
+              {[...Array(100)].map((_, index) => (
+                <option key={index} value={index + 1}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* Show Input Fields if Input Selected for Sixth Digit */}
+          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
+            <p className="">Enter the Values One by One:</p>
+            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
+              {[...Array(sixthDigitInput)].map((_, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  onChange={(e) =>
+                    sixthDigitValuesHandler(index, Number(e.target.value))
+                  }
+                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Submit Handler */}
       <div className="px-6 py-2 mt-4 bg-orange-600 text-white rounded">
         <button onClick={SubmitHandler}>Submit</button>
       </div>
+      {/* Download Excel
+      <div className="px-6 py-2 mt-4 bg-green-600 text-white rounded">
+        <button onClick={ExcelFilerHandler}>Download Output Excel File</button>
+      </div> */}
     </div>
   );
 }
