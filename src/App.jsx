@@ -119,7 +119,6 @@ function App() {
       const stringToNumber = flatArray.map((row) =>
         row.map((digit) => Number(digit))
       );
-      console.log(stringToNumber);
       setExcelData(stringToNumber);
     };
     reader.readAsArrayBuffer(file);
@@ -199,7 +198,6 @@ function App() {
       const numberSuppressExcluded = ExcelData.filter((row) => {
         return !suppressInputValues.some((value) => row.includes(value));
       });
-
       // Binary Conversion For Odd Even Filter
       const binaryProcessed = numberSuppressExcluded.map((row) => {
         let binary = row.map((digit) => (Number(digit) % 2 == 0 ? 0 : 1));
@@ -210,6 +208,38 @@ function App() {
         const oddEven = row.slice(-6);
         return OddEvenSelected.some((digit) => digit === oddEven.join(""));
       });
+      // Removing Binary Part
+      const oddEvenIncludedOriginal = oddEvenIncluded.map((row) =>
+        row.slice(0, 6)
+      );
+
+      const oddEvenSuppressedMainArray = shuffleArray([
+        ...oddEvenIncludedOriginal,
+      ]);
+      const oddEvenSuppressedExcelData = oddEvenSuppressedMainArray.map(
+        (row) => [row.join(" ")]
+      );
+
+      // *********************************************************
+      //  Excel Process
+      const worksheetOddEvenSuppressed = XLSX.utils.aoa_to_sheet(
+        oddEvenSuppressedExcelData
+      );
+
+      // Create a workbook and append the sheet
+      const workbookOddEvenSuppressed = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(
+        workbookOddEvenSuppressed,
+        worksheetOddEvenSuppressed,
+        "Sheet1"
+      );
+
+      // Save Excel file directly
+      XLSX.writeFile(
+        workbookOddEvenSuppressed,
+        "OddEven_Suppressed_Sheet.xlsx"
+      );
+      // *************************************************************
 
       // Odd Even Excluded Filter
       const oddEvenExcluded = binaryProcessed.filter((row) => {
@@ -220,87 +250,166 @@ function App() {
       const oddEvenExcludedOriginal = oddEvenExcluded.map((row) =>
         row.slice(0, 6)
       );
+
       // 6 Digit Elemination One by One
 
       // Digit Including Process
       // First Digit Included
       const firstDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
-        return firstDigitValues.some((value) => row[0] === value);
+        return firstDigitValues.includes(row[0]);
       });
 
       // Second Digit Included
       const secondDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
-        return secondDigitValues.some((value) => row[1] === value);
+        return secondDigitValues.includes(row[1]);
       });
 
       // Third Digit Included
       const thirdDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
-        return thirdDigitValues.some((value) => row[2] === value);
+        return thirdDigitValues.includes(row[2]);
       });
 
       // Fourth Digit Included
       const fourthDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
-        return fourthDigitValues.some((value) => row[3] === value);
+        return fourthDigitValues.includes(row[3]);
       });
 
       // Fifth Digit Included
       const fifthDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
-        return fifthDigitValues.some((value) => row[4] === value);
+        return fifthDigitValues.includes(row[4]);
       });
 
       // Sixth Digit Included
       const sixthDigitIncluded = oddEvenExcludedOriginal.filter((row) => {
-        return sixthDigitValues.some((value) => row[5] === value);
+        return sixthDigitValues.includes(row[5]);
       });
 
-      const digitIncludedMainArray = shuffleArray([
-        ...firstDigitIncluded,
-        ...secondDigitIncluded,
-        ...thirdDigitIncluded,
-        ...fifthDigitIncluded,
-        ...fifthDigitIncluded,
-        ...sixthDigitIncluded,
+      const firstDigitIncludedMainArray = shuffleArray([...firstDigitIncluded]);
+      const firstDigitExcelData = firstDigitIncludedMainArray.map((row) => [
+        row.join(" "),
       ]);
-      console.log(digitIncludedMainArray);
+      const secondDigitIncludedMainArray = shuffleArray([
+        ...secondDigitIncluded,
+      ]);
+      const secondDigitExcelData = secondDigitIncludedMainArray.map((row) => [
+        row.join(" "),
+      ]);
+      const thirdDigitIncludedMainArray = shuffleArray([...thirdDigitIncluded]);
+      const thirdDigitExcelData = thirdDigitIncludedMainArray.map((row) => [
+        row.join(" "),
+      ]);
+      const fourthDigitIncludedMainArray = shuffleArray([
+        ...fourthDigitIncluded,
+      ]);
+      const fourthDigitExcelData = fourthDigitIncludedMainArray.map((row) => [
+        row.join(" "),
+      ]);
+      const fifthDigitIncludedMainArray = shuffleArray([...fifthDigitIncluded]);
+      const fifthDigitExcelData = fifthDigitIncludedMainArray.map((row) => [
+        row.join(" "),
+      ]);
+      const sixthDigitIncludedMainArray = shuffleArray([...sixthDigitIncluded]);
+      const sixthDigitExcelData = sixthDigitIncludedMainArray.map((row) => [
+        row.join(" "),
+      ]);
+
+      // const digitIncludedMainArray = shuffleArray([
+      //   ...firstDigitIncluded,
+      //   ...secondDigitIncluded,
+      //   ...thirdDigitIncluded,
+      //   ...fifthDigitIncluded,
+      //   ...fifthDigitIncluded,
+      //   ...sixthDigitIncluded,
+      // ]);
+
+      // *********************************************************
+      //  Excel Process
+      const worksheetFirstDigitSuppressed =
+        XLSX.utils.aoa_to_sheet(firstDigitExcelData);
+      const worksheetSecondDigitSuppressed =
+        XLSX.utils.aoa_to_sheet(secondDigitExcelData);
+      const worksheetThirdDigitSuppressed =
+        XLSX.utils.aoa_to_sheet(thirdDigitExcelData);
+      const worksheetFourthDigitSuppressed =
+        XLSX.utils.aoa_to_sheet(fourthDigitExcelData);
+      const worksheetFifthDigitSuppressed =
+        XLSX.utils.aoa_to_sheet(fifthDigitExcelData);
+      const worksheetSixthDigitSuppressed =
+        XLSX.utils.aoa_to_sheet(sixthDigitExcelData);
+
+      // Create a workbook and append the sheet
+      const workbookDigitSuppressed = XLSX.utils.book_new();
+
+      XLSX.utils.book_append_sheet(
+        workbookDigitSuppressed,
+        worksheetFirstDigitSuppressed,
+        "first_dig_sup"
+      );
+      XLSX.utils.book_append_sheet(
+        workbookDigitSuppressed,
+        worksheetSecondDigitSuppressed,
+        "second_dig_sup"
+      );
+      XLSX.utils.book_append_sheet(
+        workbookDigitSuppressed,
+        worksheetThirdDigitSuppressed,
+        "third_dig_sup"
+      );
+      XLSX.utils.book_append_sheet(
+        workbookDigitSuppressed,
+        worksheetFourthDigitSuppressed,
+        "fourth_dig_sup"
+      );
+      XLSX.utils.book_append_sheet(
+        workbookDigitSuppressed,
+        worksheetFifthDigitSuppressed,
+        "fifth_dig_sup"
+      );
+      XLSX.utils.book_append_sheet(
+        workbookDigitSuppressed,
+        worksheetSixthDigitSuppressed,
+        "sixth_dig_sup"
+      );
+
+      // Save Excel file directly
+      XLSX.writeFile(
+        workbookDigitSuppressed,
+        "Digit_Elimination_Suppressed_Sheet.xlsx"
+      );
+      // *************************************************************
+
       // Digit Excluding Process
       // First Digit Excluded
       const firstDigitExcluded = oddEvenExcludedOriginal.filter((row) => {
-        return firstDigitValues.some((value) => row[0] !== value);
+        return !firstDigitValues.includes(row[0]);
       });
 
       // Second Digit Excluded
       const secondDigitExcluded = firstDigitExcluded.filter((row) => {
-        return secondDigitValues.some((value) => row[1] !== value);
+        return !secondDigitValues.includes(row[1]);
       });
 
       // Third Digit Excluded
       const thirdDigitExcluded = secondDigitExcluded.filter((row) => {
-        return thirdDigitValues.some((value) => row[2] !== value);
+        return !thirdDigitValues.includes(row[2]);
       });
 
       // Fourth Digit Excluded
       const fourthDigitExcluded = thirdDigitExcluded.filter((row) => {
-        return fourthDigitValues.some((value) => row[3] !== value);
+        return !fourthDigitValues.includes(row[3]);
       });
 
       // Fifth Digit Excluded
       const fifthDigitExcluded = fourthDigitExcluded.filter((row) => {
-        return fifthDigitValues.some((value) => row[4] !== value);
+        return !fifthDigitValues.includes(row[4]);
       });
 
       // Sixth Digit Excluded
       const sixthDigitExcluded = fifthDigitExcluded.filter((row) => {
-        return sixthDigitValues.some((value) => row[4] !== value);
+        return !sixthDigitValues.includes(row[5]);
       });
 
-      const digitExcludedMainArray = shuffleArray([
-        ...firstDigitExcluded,
-        ...secondDigitExcluded,
-        ...thirdDigitExcluded,
-        ...fourthDigitExcluded,
-        ...fifthDigitExcluded,
-        ...sixthDigitExcluded,
-      ]);
+      const digitExcludedMainArray = shuffleArray([...sixthDigitExcluded]);
       const digitExcludedExcelData = digitExcludedMainArray.map((row) => [
         row.join(" "),
       ]);
@@ -314,13 +423,6 @@ function App() {
 
       // Save Excel file directly
       XLSX.writeFile(workbook, "Final_Suppressed_Sheet.xlsx");
-
-      console.log("digitExcludedExcelData", digitExcludedExcelData);
-
-      // console.log("thirdDigitIncluded", thirdDigitIncluded);
-      // console.log("fourthDigitIncluded", fourthDigitIncluded);
-      // console.log("fifthDigitIncluded", fifthDigitIncluded);
-      // console.log("sixthDigitIncluded", sixthDigitIncluded);
     } else {
       return;
     }
