@@ -1,9 +1,15 @@
-import { React, useState, useEffect } from "react";
+import { React, useEffect, useState } from "react";
 import * as XLSX from "xlsx";
 import "./App.css";
+import Loader from "./components/Loader";
+import { toast } from "react-toastify";
+import OddEvenSuppresser from "./components/OddEvenSuppresser";
+import DigitElimination from "./components/DigitElimination";
+import NumberSuppresser from "./components/NumberSuppresser";
+import ExcelFileUpload from "./components/ExcelFileUpload";
 
 function App() {
-  // First number suppresser
+  const [loading, setLoading] = useState(false);
   const [suppressInputOptions, setSupressInputOptions] = useState(1);
   const [suppressInputValues, setSupressInputValues] = useState([]);
   const [ExcelData, setExcelData] = useState([]);
@@ -20,7 +26,6 @@ function App() {
   const [fourthDigitValues, setFourthDigitValues] = useState([]);
   const [fifthDigitValues, setFifthDigitValues] = useState([]);
   const [sixthDigitValues, setSixthDigitValues] = useState([]);
-  const [Supressed, setSupressed] = useState([]);
   const oddEvenData = [
     ["000000"],
     ["000001"],
@@ -99,10 +104,22 @@ function App() {
     return result;
   }
 
+  // Reset Handler
+  const resetHandler = () => {
+    window.location.reload();
+  };
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, [resetHandler]);
+
   // File Upload Handler
   const handleFileUpload = (event) => {
+    setLoading(true);
     const file = event.target.files[0];
-    if (!file) return;
+    if (!file) {
+      setLoading(false);
+      return;
+    }
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -120,6 +137,8 @@ function App() {
         row.map((digit) => Number(digit))
       );
       setExcelData(stringToNumber);
+      setLoading(false);
+      toast.info("File Uploaded Successfully");
     };
     reader.readAsArrayBuffer(file);
   };
@@ -187,7 +206,7 @@ function App() {
   };
 
   // Final Submit Handler
-  const SubmitHandler = () => {
+  const submitHandler = () => {
     if (ExcelData.length > 0) {
       // Suppressing Numbers Included Filter
       const numberSuppressIncluded = ExcelData.filter((row) => {
@@ -428,330 +447,74 @@ function App() {
     }
   };
 
-  //  // Excel File Saving Function
-  //  const ExcelFilerHandler = () => {
-  //   // Convert array to worksheet
-  // const worksheet = XLSX.utils.aoa_to_sheet(data);
-
-  // // Create a workbook and append the sheet
-  // const workbook = XLSX.utils.book_new();
-  // XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-
-  // // Save Excel file directly
-  // XLSX.writeFile(workbook, "myData.xlsx");
-  //  }
-
   return (
-    <div className="w-full p-4 bg-gray-50 flex flex-col items-center">
-      <div className="w-full flex flex-col items-center">
-        <h1 className="text-xl font-bold">Upload Excel Sheet</h1>
-
-        <input
-          type="file"
-          accept=".xlsx, .xls"
-          onChange={handleFileUpload}
-          className="mt-2"
+    <>
+      <Loader loading={loading} />
+      <div className="w-full p-4 bg-gray-50 flex flex-col items-center">
+        <ExcelFileUpload
+          ExcelData={ExcelData}
+          handleFileUpload={handleFileUpload}
         />
-        <p className="mt-4">Total Rows: {ExcelData.length}</p>
-      </div>
-      <div className="w-full flex-col md:flex justify-around items-center">
-        {/* Number Supresser */}
-        <div className="w-full mt-4 flex flex-col items-center justify-center md:w-[350px] bg-white shadow-lg rounded-md">
-          <h2 className="w-full text-md font-normal text-center py-2 bg-blue-400 text-white rounded-t-md">
-            How many numbers you want to suppress?
-          </h2>
-          <div className="w-full flex gap-2">
-            <select
-              onChange={(e) => setSupressInputOptions(Number(e.target.value))}
-              className="w-full px-4 py-2 focus:outline-none cursor-pointer bg-blue-100"
-            >
-              {[...Array(20)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Show Input Fields if Value Selected */}
-          <div className="w-full flex flex-col max-h-[350px] p-4">
-            <p className="py-2">Enter the Values One by One:</p>
-            <div className="w-full grid grid-cols-5 gap-2 max-h-[350px]">
-              {[...Array(suppressInputOptions)].map((_, index) => (
-                <input
-                  key={index}
-                  onChange={(e) =>
-                    suppressInputValueHandler(index, Number(e.target.value))
-                  }
-                  type="text"
-                  placeholder={``}
-                  className="p-2 rounded bg-green-500 text-center focus:outline-blue-700 text-white font-bold"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
 
-        {/* Odd Even Check Box */}
-        <div className="w-full mt-4 flex flex-col items-center justify-center md:w-[350px] bg-white shadow-lg rounded-md">
-          <h2 className="w-full text-xl font-normal text-center py-2 bg-blue-400 text-white rounded-t-md">
-            Select Odd Even Combination
-          </h2>
-          <div className="w-full p-2 flex flex-col">
-            <p>Selected Items:</p>
-            <div className="w-full flex gap-1 max-h-24 py-1 flex-wrap overflow-x-hidden overflow-y-scroll">
-              {OddEvenSelected.map((item) => (
-                <span
-                  key={item}
-                  className="bg-blue-500 text-white px-2 py-1 rounded"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-            <div className="w-full py-2 px-4 overflow-x-hidden max-h-[350px]">
-              {oddEvenData.map((each, index) => (
-                <div key={each} className="flex items-center">
-                  <p className="p-1 mr-2">{index + 1} &#41; </p>
-                  <input
-                    id={each}
-                    type="checkbox"
-                    value={each}
-                    onChange={checkboxHandler}
-                    className="p-2"
-                  />
-                  <label htmlFor={each} className="p-2">
-                    {each}
-                  </label>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="w-full flex-col md:flex justify-around items-center">
+          {/* Numbert Suppresser */}
+          <NumberSuppresser
+            setSupressInputOptions={setSupressInputOptions}
+            suppressInputOptions={suppressInputOptions}
+            suppressInputValueHandler={suppressInputValueHandler}
+          />
+          {/* OddEven Suppresser */}
+          <OddEvenSuppresser
+            OddEvenSelected={OddEvenSelected}
+            oddEvenData={oddEvenData}
+            checkboxHandler={checkboxHandler}
+          />
         </div>
-      </div>
-      {/* 6 Single Digit Suppresser */}
-      <div className="w-full mt-4 pb-4 flex flex-col items-center justify-center md:w-[350px] bg-white shadow-lg rounded-md">
-        <h2 className="w-full text-md font-normal text-center py-2 bg-blue-400 text-white rounded-t-md">
-          Single Digit Suppresser Select One by One
-        </h2>
-        {/* First Digit */}
-        <div>
-          <p className="w-full text-sm p-2 mt-2 font-bold">
-            Enter Number of Inputs to Eliminate 1st Digit
-          </p>
-          <div className="px-2 w-full">
-            <select
-              onChange={(e) => setFirstDigitInput(Number(e.target.value))}
-              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
-            >
-              {[...Array(100)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Show Input Fields if Input Selected for First Digit */}
-          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
-            <p className="">Enter the Values One by One:</p>
-            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
-              {[...Array(firstDigitInput)].map((_, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  onChange={(e) =>
-                    firstDigitValuesHandler(index, Number(e.target.value))
-                  }
-                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        {/* 6 Single Digit Suppresser */}
+        <DigitElimination
+          firstDigitInput={firstDigitInput}
+          setFirstDigitInput={setFirstDigitInput}
+          secondDigitInput={secondDigitInput}
+          SetsecondDigitInput={setSecondDigitInput}
+          thirdDigitInput={thirdDigitInput}
+          setThirdDigitInput={setThirdDigitInput}
+          fourthDigitInput={fourthDigitInput}
+          setFourthDigitInput={setFourthDigitInput}
+          fifthDigitInput={fifthDigitInput}
+          setFifthDigitInput={setFifthDigitInput}
+          sixthDigitInput={sixthDigitInput}
+          setSixthDigitInput={setSixthDigitInput}
+          firstDigitValuesHandler={firstDigitValuesHandler}
+          secondDigitValuesHandler={secondDigitValuesHandler}
+          thirdDigitValuesHandler={thirdDigitValuesHandler}
+          fourthDigitValuesHandler={fourthDigitValuesHandler}
+          fifthDigitValuesHandler={fifthDigitValuesHandler}
+          sixthDigitValuesHandler={sixthDigitValuesHandler}
+        />
+        {/* Submit Handler */}
+        <div className="w-full flex justify-center gap-2 mt-4">
+          {/* Reset All Button */}
+          <button
+            className="bg-red-600 px-6 py-2 text-white rounded-md transition-all duration-300 hover:opacity-90 hover:scale-95"
+            onClick={resetHandler}
+          >
+            Reset All
+          </button>
 
-        {/* Second Digit */}
-        <div>
-          <p className="w-full text-sm p-2 mt-2 font-bold">
-            Enter Number of Inputs to Eliminate 2nd Digit
-          </p>
-          <div className="px-2 w-full">
-            <select
-              onChange={(e) => setSecondDigitInput(Number(e.target.value))}
-              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
-            >
-              {[...Array(100)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Show Input Fields if Input Selected for Second Digit */}
-          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
-            <p className="">Enter the Values One by One:</p>
-            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
-              {[...Array(secondDigitInput)].map((_, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  onChange={(e) =>
-                    secondDigitValuesHandler(index, Number(e.target.value))
-                  }
-                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
-                />
-              ))}
-            </div>
-          </div>
+          {/* Run Program Button */}
+          <button
+            className="bg-blue-600 px-6 py-2 text-white rounded-md transition-all duration-300 hover:opacity-90 hover:scale-95"
+            onClick={submitHandler}
+          >
+            Run Program
+          </button>
         </div>
-
-        {/* Third Digit */}
-        <div>
-          <p className="w-full text-sm p-2 mt-2 font-bold">
-            Enter Number of Inputs to Eliminate 3rd Digit
-          </p>
-          <div className="px-2 w-full">
-            <select
-              onChange={(e) => setThirdDigitInput(Number(e.target.value))}
-              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
-            >
-              {[...Array(100)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Show Input Fields if Input Selected for Third Digit */}
-          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
-            <p className="">Enter the Values One by One:</p>
-            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
-              {[...Array(thirdDigitInput)].map((_, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  onChange={(e) =>
-                    thirdDigitValuesHandler(index, Number(e.target.value))
-                  }
-                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Fourth Digit */}
-        <div>
-          <p className="w-full text-sm p-2 mt-2 font-bold">
-            Enter Number of Inputs to Eliminate 4th Digit
-          </p>
-          <div className="px-2 w-full">
-            <select
-              onChange={(e) => setFourthDigitInput(Number(e.target.value))}
-              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
-            >
-              {[...Array(100)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Show Input Fields if Input Selected for Fourth Digit */}
-          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
-            <p className="">Enter the Values One by One:</p>
-            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
-              {[...Array(fourthDigitInput)].map((_, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  onChange={(e) =>
-                    fourthDigitValuesHandler(index, Number(e.target.value))
-                  }
-                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Fifth Digit */}
-        <div>
-          <p className="w-full text-sm p-2 mt-2 font-bold">
-            Enter Number of Inputs to Eliminate 5th Digit
-          </p>
-          <div className="px-2 w-full">
-            <select
-              onChange={(e) => setFifthDigitInput(Number(e.target.value))}
-              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
-            >
-              {[...Array(100)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Show Input Fields if Input Selected for Fifth Digit */}
-          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
-            <p className="">Enter the Values One by One:</p>
-            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
-              {[...Array(fifthDigitInput)].map((_, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  onChange={(e) =>
-                    fifthDigitValuesHandler(index, Number(e.target.value))
-                  }
-                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Sixth Digit */}
-        <div>
-          <p className="w-full text-sm p-2 mt-2 font-bold">
-            Enter Number of Inputs to Eliminate 6th Digit
-          </p>
-          <div className="px-2 w-full">
-            <select
-              onChange={(e) => setSixthDigitInput(Number(e.target.value))}
-              className="w-[50%] focus:outline-none focus:shadow-lg transition-all duration-200 bg-yellow-200 px-4 py-2 rounded cursor-pointer"
-            >
-              {[...Array(100)].map((_, index) => (
-                <option key={index} value={index + 1}>
-                  {index + 1}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* Show Input Fields if Input Selected for Sixth Digit */}
-          <div className="w-full flex flex-col mt-2 p-2 overflow-y-auto">
-            <p className="">Enter the Values One by One:</p>
-            <div className="w-full grid grid-cols-5 gap-2 max-h-[200px]">
-              {[...Array(sixthDigitInput)].map((_, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  onChange={(e) =>
-                    sixthDigitValuesHandler(index, Number(e.target.value))
-                  }
-                  className="p-2 rounded bg-orange-400 text-center focus:outline-blue-700 text-white font-bold"
-                />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-      {/* Submit Handler */}
-      <div className="px-6 py-2 mt-4 bg-orange-600 text-white rounded">
-        <button onClick={SubmitHandler}>Submit</button>
-      </div>
-      {/* Download Excel
+        {/* Download Excel
       <div className="px-6 py-2 mt-4 bg-green-600 text-white rounded">
         <button onClick={ExcelFilerHandler}>Download Output Excel File</button>
       </div> */}
-    </div>
+      </div>
+    </>
   );
 }
 
