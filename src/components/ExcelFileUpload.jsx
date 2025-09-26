@@ -3,7 +3,7 @@ import { RiFileExcel2Fill } from "react-icons/ri";
 
 const ExcelFileUpload = ({ handleFileUpload, ExcelData }) => {
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-col items-center mt-4">
       {/* <h1 className="text-xl font-bold">Upload Excel Sheet</h1> */}
       <div className="flex justify-center items-center relative">
         <label

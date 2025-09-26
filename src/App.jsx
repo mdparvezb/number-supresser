@@ -108,9 +108,6 @@ function App() {
   const resetHandler = () => {
     window.location.reload();
   };
-  useEffect(() => {
-    window.scroll(0, 0);
-  }, [resetHandler]);
 
   // File Upload Handler
   const handleFileUpload = (event) => {
@@ -475,7 +472,7 @@ function App() {
           firstDigitInput={firstDigitInput}
           setFirstDigitInput={setFirstDigitInput}
           secondDigitInput={secondDigitInput}
-          SetsecondDigitInput={setSecondDigitInput}
+          setSecondDigitInput={setSecondDigitInput}
           thirdDigitInput={thirdDigitInput}
           setThirdDigitInput={setThirdDigitInput}
           fourthDigitInput={fourthDigitInput}

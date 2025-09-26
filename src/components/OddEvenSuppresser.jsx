@@ -7,11 +7,12 @@ const OddEvenSuppresser = ({
 }) => {
   return (
     <div className="w-full mt-4 flex flex-col items-center justify-center md:w-[350px] bg-white shadow-lg rounded-md">
-      <h2 className="w-full text-xl font-normal text-center py-2 bg-blue-400 text-white rounded-t-md">
-        Select Odd Even Combination
+      <h2 className="w-full text-lg font-bold text-center py-2 bg-blue-800 text-white tracking-wide rounded-t-md">
+        ODD EVEN SUPPRESSER
       </h2>
       <div className="w-full p-2 flex flex-col">
-        <p>Selected Items:</p>
+        <p className="py-2">Select Odd Even Combinations:</p>
+        <p className="py-1">Selected Items:</p>
         <div className="w-full flex gap-1 mb-2 max-h-24 py-1 flex-wrap overflow-x-hidden overflow-y-auto">
           {OddEvenSelected.map((item) => (
             <span

@@ -1,4 +1,5 @@
 import React from "react";
+import "./../App.css";
 
 const NumberSuppresser = ({
   setSupressInputOptions,
@@ -8,13 +9,14 @@ const NumberSuppresser = ({
   return (
     <div className="w-full mt-4 flex flex-col items-center justify-center md:w-[350px] bg-white shadow-lg rounded-md">
       {/* Number Supresser */}
-      <h2 className="w-full text-md font-normal text-center py-2 bg-blue-400 text-white rounded-t-md">
-        How many numbers you want to suppress?
+      <h2 className="w-full text-md tracking-wide text-center py-2 bg-blue-800 text-white rounded-t-md font-bold">
+        NUMBER SUPPRESSER
       </h2>
-      <div className="w-full flex gap-2">
+      <div className="w-full flex flex-col mt-4 ml-6 gap-2">
+        <p>Choose Number of Inputs to Suppress:</p>
         <select
           onChange={(e) => setSupressInputOptions(Number(e.target.value))}
-          className="w-full px-4 py-2 focus:outline-none cursor-pointer bg-blue-100"
+          className="w-40 text-center font-bold text-white bg-green-600 py-4 focus:outline-none cursor-pointe rounded-sm cursor-pointer"
         >
           {[...Array(20)].map((_, index) => (
             <option key={index} value={index + 1}>
@@ -29,12 +31,14 @@ const NumberSuppresser = ({
         <div className="w-full grid grid-cols-5 gap-2 max-h-[350px]">
           {[...Array(suppressInputOptions)].map((_, index) => (
             <input
+              maxLength={2}
+              placeholder="0"
               key={index}
               onChange={(e) =>
                 suppressInputValueHandler(index, Number(e.target.value))
               }
               type="text"
-              className="p-2 rounded bg-green-500 text-center focus:outline-blue-700 text-white font-bold"
+              className="py-1 border-blue-700 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
             />
           ))}
         </div>
