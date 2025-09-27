@@ -9,7 +9,7 @@ const Loader = ({ loading }) => {
   return (
     <>
       {loading && (
-        <div className="w-full h-screen absolute top-0 left-0 overflow-hidden flex justify-center items-center bg-black opacity-80 pointer-events-auto z-50">
+        <div className="w-full h-screen absolute top-0 left-0 overflow-hidden flex justify-center items-center bg-black opacity-90 pointer-events-auto z-50">
           <div className="loader"></div>
         </div>
       )}

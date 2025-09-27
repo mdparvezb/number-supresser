@@ -7,6 +7,7 @@ import OddEvenSuppresser from "./components/OddEvenSuppresser";
 import DigitElimination from "./components/DigitElimination";
 import NumberSuppresser from "./components/NumberSuppresser";
 import ExcelFileUpload from "./components/ExcelFileUpload";
+import { parse } from "postcss";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -14,12 +15,12 @@ function App() {
   const [suppressInputValues, setSupressInputValues] = useState([]);
   const [ExcelData, setExcelData] = useState([]);
   const [OddEvenSelected, setOddEvenSelected] = useState([]);
-  const [firstDigitInput, setFirstDigitInput] = useState(1);
-  const [secondDigitInput, setSecondDigitInput] = useState(1);
-  const [thirdDigitInput, setThirdDigitInput] = useState(1);
-  const [fourthDigitInput, setFourthDigitInput] = useState(1);
-  const [fifthDigitInput, setFifthDigitInput] = useState(1);
-  const [sixthDigitInput, setSixthDigitInput] = useState(1);
+  const [firstDigitInput, setFirstDigitInput] = useState(3);
+  const [secondDigitInput, setSecondDigitInput] = useState(3);
+  const [thirdDigitInput, setThirdDigitInput] = useState(3);
+  const [fourthDigitInput, setFourthDigitInput] = useState(3);
+  const [fifthDigitInput, setFifthDigitInput] = useState(3);
+  const [sixthDigitInput, setSixthDigitInput] = useState(3);
   const [firstDigitValues, setFirstDigitValues] = useState([]);
   const [secondDigitValues, setSecondDigitValues] = useState([]);
   const [thirdDigitValues, setThirdDigitValues] = useState([]);
@@ -92,6 +93,25 @@ function App() {
     ["111110"],
     ["111111"],
   ];
+
+  useEffect(() => {
+    setLoading(true)
+    fetch("/data/data.xlsx")
+      .then((res) => res.arrayBuffer())
+      .then((buffer) => {
+        const workbook = XLSX.read(buffer, { type: "array" });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        // Since you have only one column, flatten it
+        const flatArray = rows.map((row) => row[0].trim().split(" "));
+        const stringToNumber = flatArray.map((row) =>
+          row.map((digit) => Number(digit))
+        );
+        setLoading(false)
+        setExcelData(stringToNumber);
+      })
+      .catch((err) => console.error("Error loading Excel file:", err));
+  }, []);
 
   // Shuffler Function
   function shuffleArray(arr) {
@@ -435,7 +455,6 @@ function App() {
       return;
     }
   };
-
   return (
     <>
       <Loader loading={loading} />

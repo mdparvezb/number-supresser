@@ -35,6 +35,7 @@ const DigitElimination = ({
           <div className="px-2 w-full">
             <select
               onChange={(e) => setFirstDigitInput(Number(e.target.value))}
+              defaultValue={3}
               className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
               {[...Array(100)].map((_, index) => (
@@ -71,6 +72,7 @@ const DigitElimination = ({
           </p>
           <div className="px-2 w-full">
             <select
+              defaultValue={3}
               onChange={(e) => setSecondDigitInput(Number(e.target.value))}
               className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
@@ -108,6 +110,7 @@ const DigitElimination = ({
           </p>
           <div className="px-2 w-full">
             <select
+              defaultValue={3}
               onChange={(e) => setThirdDigitInput(Number(e.target.value))}
               className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
@@ -145,6 +148,7 @@ const DigitElimination = ({
           </p>
           <div className="px-2 w-full">
             <select
+              defaultValue={3}
               onChange={(e) => setFourthDigitInput(Number(e.target.value))}
               className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
@@ -182,6 +186,7 @@ const DigitElimination = ({
           </p>
           <div className="px-2 w-full">
             <select
+              defaultValue={3}
               onChange={(e) => setFifthDigitInput(Number(e.target.value))}
               className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
@@ -219,6 +224,7 @@ const DigitElimination = ({
           </p>
           <div className="px-2 w-full">
             <select
+              defaultValue={3}
               onChange={(e) => setSixthDigitInput(Number(e.target.value))}
               className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
