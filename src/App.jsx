@@ -329,15 +329,6 @@ function App() {
         row.join(" "),
       ]);
 
-      // const digitIncludedMainArray = shuffleArray([
-      //   ...firstDigitIncluded,
-      //   ...secondDigitIncluded,
-      //   ...thirdDigitIncluded,
-      //   ...fifthDigitIncluded,
-      //   ...fifthDigitIncluded,
-      //   ...sixthDigitIncluded,
-      // ]);
-
       // *********************************************************
       //  Excel Process
       const worksheetFirstDigitSuppressed =
@@ -440,6 +431,7 @@ function App() {
       // Save Excel file directly
       XLSX.writeFile(workbook, "Final_Suppressed_Sheet.xlsx");
     } else {
+      toast.warning("Please upload the file");
       return;
     }
   };
