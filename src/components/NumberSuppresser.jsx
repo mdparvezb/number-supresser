@@ -16,7 +16,7 @@ const NumberSuppresser = ({
         <p>Choose Number of Inputs to Suppress:</p>
         <select
           onChange={(e) => setSupressInputOptions(Number(e.target.value))}
-          className="w-40 text-center font-bold text-white bg-green-600 py-4 focus:outline-none cursor-pointe rounded-sm cursor-pointer"
+          className="w-36 shadow-lg text-center font-bold text-white bg-green-600 py-3 focus:outline-none cursor-pointe rounded-sm cursor-pointer"
         >
           {[...Array(20)].map((_, index) => (
             <option key={index} value={index + 1}>
@@ -38,7 +38,7 @@ const NumberSuppresser = ({
                 suppressInputValueHandler(index, Number(e.target.value))
               }
               type="text"
-              className="py-1 border-blue-700 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
+              className="py-1 shadow-md focus:shadow-lg bg-white border-blue-700 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
             />
           ))}
         </div>

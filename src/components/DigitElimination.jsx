@@ -36,7 +36,7 @@ const DigitElimination = ({
             <select
               onChange={(e) => setFirstDigitInput(Number(e.target.value))}
               defaultValue={3}
-              className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
+              className="w-36 shadow-lg text-center font-bold text-white bg-blue-500 py-3 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
               {[...Array(100)].map((_, index) => (
                 <option key={index} value={index + 1}>
@@ -58,7 +58,7 @@ const DigitElimination = ({
                   onChange={(e) =>
                     firstDigitValuesHandler(index, Number(e.target.value))
                   }
-                  className="py-1 border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
+                  className="py-1 shadow-md focus:shadow-lg bg-white border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
                 />
               ))}
             </div>
@@ -74,7 +74,7 @@ const DigitElimination = ({
             <select
               defaultValue={3}
               onChange={(e) => setSecondDigitInput(Number(e.target.value))}
-              className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
+              className="w-36 shadow-lg text-center font-bold text-white bg-blue-500 py-3 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
               {[...Array(100)].map((_, index) => (
                 <option key={index} value={index + 1}>
@@ -96,7 +96,7 @@ const DigitElimination = ({
                   onChange={(e) =>
                     secondDigitValuesHandler(index, Number(e.target.value))
                   }
-                  className="py-1 border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
+                  className="py-1 shadow-md focus:shadow-lg bg-white border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
                 />
               ))}
             </div>
@@ -112,7 +112,7 @@ const DigitElimination = ({
             <select
               defaultValue={3}
               onChange={(e) => setThirdDigitInput(Number(e.target.value))}
-              className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
+              className="w-36 shadow-lg text-center font-bold text-white bg-blue-500 py-3 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
               {[...Array(100)].map((_, index) => (
                 <option key={index} value={index + 1}>
@@ -134,7 +134,7 @@ const DigitElimination = ({
                   onChange={(e) =>
                     thirdDigitValuesHandler(index, Number(e.target.value))
                   }
-                  className="py-1 border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
+                  className="py-1 shadow-md focus:shadow-lg bg-white border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
                 />
               ))}
             </div>
@@ -150,7 +150,7 @@ const DigitElimination = ({
             <select
               defaultValue={3}
               onChange={(e) => setFourthDigitInput(Number(e.target.value))}
-              className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
+              className="w-36 shadow-lg text-center font-bold text-white bg-blue-500 py-3 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
               {[...Array(100)].map((_, index) => (
                 <option key={index} value={index + 1}>
@@ -172,7 +172,7 @@ const DigitElimination = ({
                   onChange={(e) =>
                     fourthDigitValuesHandler(index, Number(e.target.value))
                   }
-                  className="py-1 border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
+                  className="py-1 shadow-md focus:shadow-lg bg-white border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
                 />
               ))}
             </div>
@@ -188,7 +188,7 @@ const DigitElimination = ({
             <select
               defaultValue={3}
               onChange={(e) => setFifthDigitInput(Number(e.target.value))}
-              className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
+              className="w-36 shadow-lg text-center font-bold text-white bg-blue-500 py-3 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
               {[...Array(100)].map((_, index) => (
                 <option key={index} value={index + 1}>
@@ -210,7 +210,7 @@ const DigitElimination = ({
                   onChange={(e) =>
                     fifthDigitValuesHandler(index, Number(e.target.value))
                   }
-                  className="py-1 border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
+                  className="py-1 shadow-md focus:shadow-lg bg-white border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
                 />
               ))}
             </div>
@@ -226,7 +226,7 @@ const DigitElimination = ({
             <select
               defaultValue={3}
               onChange={(e) => setSixthDigitInput(Number(e.target.value))}
-              className="w-40 text-center font-bold text-white bg-blue-500 py-4 focus:outline-none cursor-pointe rounded-md cursor-pointer"
+              className="w-36 shadow-lg text-center font-bold text-white bg-blue-500 py-3 focus:outline-none cursor-pointe rounded-md cursor-pointer"
             >
               {[...Array(100)].map((_, index) => (
                 <option key={index} value={index + 1}>
@@ -248,7 +248,7 @@ const DigitElimination = ({
                   onChange={(e) =>
                     sixthDigitValuesHandler(index, Number(e.target.value))
                   }
-                  className="py-1 border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
+                  className="py-1 shadow-md focus:shadow-lg bg-white border-purple-800 border-b-2 text-center  text-black text-2xl font-bold focus:outline-none focus:border-b-4"
                 />
               ))}
             </div>

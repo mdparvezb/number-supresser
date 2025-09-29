@@ -95,7 +95,7 @@ function App() {
   ];
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     fetch("/data/data.xlsx")
       .then((res) => res.arrayBuffer())
       .then((buffer) => {
@@ -107,7 +107,7 @@ function App() {
         const stringToNumber = flatArray.map((row) =>
           row.map((digit) => Number(digit))
         );
-        setLoading(false)
+        setLoading(false);
         setExcelData(stringToNumber);
       })
       .catch((err) => console.error("Error loading Excel file:", err));
@@ -500,10 +500,10 @@ function App() {
           sixthDigitValuesHandler={sixthDigitValuesHandler}
         />
         {/* Submit Handler */}
-        <div className="w-full flex justify-center gap-2 mt-4">
+        <div className="w-full flex justify-center gap-2 my-4">
           {/* Reset All Button */}
           <button
-            className="bg-red-600 px-6 py-2 text-white rounded-md transition-all duration-300 hover:opacity-90 hover:scale-95"
+            className="bg-red-600 px-6 py-2 text-white rounded-md transition-all duration-300 hover:opacity-90 hover:scale-95 shadow-md"
             onClick={resetHandler}
           >
             Reset All
@@ -511,16 +511,12 @@ function App() {
 
           {/* Run Program Button */}
           <button
-            className="bg-blue-600 px-6 py-2 text-white rounded-md transition-all duration-300 hover:opacity-90 hover:scale-95"
+            className="bg-blue-600 px-6 py-2 text-white rounded-md transition-all duration-300 hover:opacity-90 hover:scale-95 shadow-md"
             onClick={submitHandler}
           >
             Run Program
           </button>
         </div>
-        {/* Download Excel
-      <div className="px-6 py-2 mt-4 bg-green-600 text-white rounded">
-        <button onClick={ExcelFilerHandler}>Download Output Excel File</button>
-      </div> */}
       </div>
     </>
   );
